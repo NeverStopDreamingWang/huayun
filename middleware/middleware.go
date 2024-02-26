@@ -2,7 +2,7 @@ package middleware
 
 import (
 	"github.com/NeverStopDreamingWang/goi"
-	"huayun/huayun"
+	"github.com/NeverStopDreamingWang/huayun/huayun"
 )
 
 func init() {
