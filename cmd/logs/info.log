@@ -1,0 +1,100 @@
+---start---
+启动时间: 2024-02-22 17:14:29
+goi 版本: 1.0.13
+日志 DEBUG: true
+- INFO 日志: logs/info.log
+- ACCESS 日志: logs/asccess.log
+- ERROR 日志: logs/error.log
+日志切割大小: 5.00 MB
+日志切割格式: 2006-01-02
+当前时区: Asia/Shanghai
+缓存大小: 50.00 MB
+- 淘汰策略: ALLKEYS_LRU
+- 过期策略: PERIODIC
+监听地址: http://0.0.0.0:8080 [tcp]
+服务已停止！
+停止时间: 2024-02-22 17:14:44
+共运行: 14秒
+---end---
+---start---
+启动时间: 2024-02-25 23:08:32
+goi 版本: 1.0.13
+日志 DEBUG: true
+- INFO 日志: logs/info.log
+- ACCESS 日志: logs/asccess.log
+- ERROR 日志: logs/error.log
+日志切割大小: 5.00 MB
+日志切割格式: 2006-01-02
+当前时区: Asia/Shanghai
+缓存大小: 50.00 MB
+- 淘汰策略: ALLKEYS_LRU
+- 过期策略: PERIODIC
+---start---
+启动时间: 2024-02-25 23:08:39
+goi 版本: 1.0.13
+日志 DEBUG: true
+- INFO 日志: logs/info.log
+- ACCESS 日志: logs/asccess.log
+- ERROR 日志: logs/error.log
+日志切割大小: 5.00 MB
+日志切割格式: 2006-01-02
+当前时区: Asia/Shanghai
+缓存大小: 50.00 MB
+- 淘汰策略: ALLKEYS_LRU
+- 过期策略: PERIODIC
+监听地址: http://0.0.0.0:8080 [tcp]
+无效操作！
+---start---
+启动时间: 2024-02-26 15:31:56
+goi 版本: 1.0.13
+日志 DEBUG: true
+- INFO 日志: logs/info.log
+- ACCESS 日志: logs/asccess.log
+- ERROR 日志: logs/error.log
+日志切割大小: 5.00 MB
+日志切割格式: 2006-01-02
+当前时区: Asia/Shanghai
+缓存大小: 50.00 MB
+- 淘汰策略: ALLKEYS_LRU
+- 过期策略: PERIODIC
+监听地址: http://0.0.0.0:8080 [tcp]
+服务已停止！
+停止时间: 2024-02-26 15:33:04
+共运行: 01分07秒
+---end---
+---start---
+启动时间: 2024-02-26 15:33:05
+goi 版本: 1.0.13
+日志 DEBUG: true
+- INFO 日志: logs/info.log
+- ACCESS 日志: logs/asccess.log
+- ERROR 日志: logs/error.log
+日志切割大小: 5.00 MB
+日志切割格式: 2006-01-02
+当前时区: Asia/Shanghai
+缓存大小: 50.00 MB
+- 淘汰策略: ALLKEYS_LRU
+- 过期策略: PERIODIC
+监听地址: http://0.0.0.0:8080 [tcp]
+服务已停止！
+停止时间: 2024-02-26 15:33:15
+共运行: 10秒
+---end---
+---start---
+启动时间: 2024-02-26 15:33:33
+goi 版本: 1.0.13
+日志 DEBUG: true
+- INFO 日志: logs/info.log
+- ACCESS 日志: logs/asccess.log
+- ERROR 日志: logs/error.log
+日志切割大小: 5.00 MB
+日志切割格式: 2006-01-02
+当前时区: Asia/Shanghai
+缓存大小: 50.00 MB
+- 淘汰策略: ALLKEYS_LRU
+- 过期策略: PERIODIC
+监听地址: http://0.0.0.0:8080 [tcp]
+服务已停止！
+停止时间: 2024-02-26 16:33:07
+共运行: 59分33秒
+---end---
