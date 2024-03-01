@@ -1,6 +1,7 @@
 package settings
 
 import (
+	"database/sql"
 	"encoding/base64"
 	"fmt"
 	"github.com/NeverStopDreamingWang/goi"
@@ -22,9 +23,31 @@ func init() {
 	}
 	migrate.SQLite3Migrate(SQLite3Migrations)
 
-	settings := &SettingsModel{}
-	settings.ReadSettings("PanelName", "Version")
+	err := ReadSettings()
+	if err != nil {
+		panic(err)
+	}
 
+	// var (
+	// 	name      = "test1"
+	// 	value     = "test1_value1111"
+	// 	valueType = "string"
+	// 	desc      = "测试"
+	// )
+	//
+	// NewSettings := &SettingsModel{
+	// 	Name:            &name,
+	// 	Value:           &value,
+	// 	Type:            &valueType,
+	// 	Desc:            &desc,
+	// 	Update_Datetime: nil,
+	// }
+	// result, err := NewSettings.WriteSettings()
+	// if err != nil {
+	// 	goi.Log.Error(result, err)
+	// } else {
+	// 	goi.Log.Info(result)
+	// }
 }
 
 // 配置表
@@ -49,81 +72,6 @@ func (settingsModel SettingsModel) ModelSet() *model.SQLite3Settings {
 		MySettings: model.MySettings{},
 	}
 	return modelSettings
-}
-
-// 从数据库中加载配置
-func (settingsModel SettingsModel) ReadSettings(names ...string) {
-	// 连接数据库
-	sqlite3DB, err := db.SQLite3Connect("default")
-	if err != nil {
-		panic(fmt.Sprintf("连接 SQLite3 [default] 数据库 错误: %v", err))
-	}
-
-	settingsList := make([]*SettingsModel, 0)
-	sqlite3DB.SetModel(SettingsModel{})
-	if len(names) != 0 {
-		// err = sqlite3DB.Where("name in (?)", "'"+strings.Join(names, "','")+"'").Select(&settingsList)
-		settingsList = make([]*SettingsModel, len(names))
-		for i, name := range names {
-			data := &SettingsModel{}
-			err = sqlite3DB.Where("name=?", name).First(data)
-			settingsList[i] = data
-		}
-	} else {
-		err = sqlite3DB.Select(&settingsList)
-	}
-	if err != nil {
-		panic(err)
-	}
-
-	// 从数据库中加载配置
-	for _, item := range settingsList {
-		switch *item.Name {
-		case "NetWork":
-			huayun.Server.Settings.NET_WORK = *item.Value
-		case "BindAddress":
-			huayun.Server.Settings.BIND_ADDRESS = *item.Value
-		case "Port":
-			Port, _ := strconv.Atoi(*item.Value)
-			huayun.Server.Settings.PORT = uint16(Port)
-		case "Domain":
-			huayun.Server.Settings.Domain = *item.Value
-		case "SSL":
-			huayun.Server.Settings.SSL = goi.MetaSSL{
-				STATUS:    *item.Value == "true", // SSL 开关
-				TYPE:      "",
-				CERT_PATH: "",
-				KEY_PATH:  "",
-			}
-		case "SSLType":
-			huayun.Server.Settings.SSL.TYPE = *item.Value
-		case "CertPath":
-			huayun.Server.Settings.SSL.CERT_PATH = *item.Value
-		case "KeyPath":
-			huayun.Server.Settings.SSL.KEY_PATH = *item.Value
-		case "TimeZone":
-			huayun.Server.Settings.TIME_ZONE = *item.Value
-		case "EvictPolicy":
-			EvictPolicy, _ := strconv.Atoi(*item.Value)
-			huayun.Server.Cache.EVICT_POLICY = goi.EvictPolicy(EvictPolicy)
-		case "ExpirationPolicy":
-			ExpirationPolicy, _ := strconv.Atoi(*item.Value)
-			huayun.Server.Cache.EXPIRATION_POLICY = goi.ExpirationPolicy(ExpirationPolicy)
-		case "MaxSize":
-			MaxSize, _ := strconv.Atoi(*item.Value)
-			huayun.Server.Cache.MAX_SIZE = int64(MaxSize)
-		case "Debug":
-			huayun.Server.Log.DEBUG = *item.Value == "true"
-		case "SecretKey":
-			huayun.Server.Settings.SECRET_KEY = *item.Value
-		case "PrivateKey":
-			huayun.Server.Settings.PRIVATE_KEY = *item.Value
-		case "PublicKey":
-			huayun.Server.Settings.PUBLIC_KEY = *item.Value
-		default:
-			huayun.Server.Settings.Set(*item.Name, *item.Value)
-		}
-	}
 }
 
 func InItSettings() error {
@@ -192,6 +140,104 @@ func InItSettings() error {
 		_, err = SQLite3DB.Insert(user)
 		if err != nil {
 			return err
+		}
+	}
+	return nil
+}
+
+// 从数据库中加载配置
+func (settings SettingsModel) WriteSettings() (sql.Result, error) {
+	// 连接数据库
+	sqlite3DB, err := db.SQLite3Connect("default")
+	if err != nil {
+		panic(fmt.Sprintf("连接 SQLite3 [default] 数据库 错误: %v", err))
+	}
+
+	sqlite3DB.SetModel(SettingsModel{})
+
+	settingsTemp := SettingsModel{}
+	err = sqlite3DB.Where("name=?", settings.Name).First(&settingsTemp)
+
+	if settingsTemp.Name == nil {
+		return sqlite3DB.Insert(settings)
+	}
+	return sqlite3DB.Where("name=?", settings.Name).Update(settings)
+}
+
+// 从数据库中加载配置
+func ReadSettings(nameList ...string) error {
+	// 连接数据库
+	sqlite3DB, err := db.SQLite3Connect("default")
+	if err != nil {
+		return err
+	}
+
+	settingsList := make([]SettingsModel, 0)
+	sqlite3DB.SetModel(SettingsModel{})
+	if len(nameList) != 0 {
+		// err = sqlite3DB.Where("name in (?)", "'"+strings.Join(names, "','")+"'").Select(&settingsList)
+		settingsList = make([]SettingsModel, len(nameList))
+		for i, name := range nameList {
+			data := SettingsModel{}
+			err = sqlite3DB.Where("name=?", name).First(&data)
+			if err != nil {
+				return err
+			}
+			settingsList[i] = data
+		}
+	} else {
+		err = sqlite3DB.Select(&settingsList)
+		if err != nil {
+			return err
+		}
+	}
+
+	// 从数据库中加载配置
+	for _, item := range settingsList {
+		switch *item.Name {
+		case "NetWork":
+			huayun.Server.Settings.NET_WORK = *item.Value
+		case "BindAddress":
+			huayun.Server.Settings.BIND_ADDRESS = *item.Value
+		case "Port":
+			Port, _ := strconv.Atoi(*item.Value)
+			huayun.Server.Settings.PORT = uint16(Port)
+		case "Domain":
+			huayun.Server.Settings.Domain = *item.Value
+		case "SSL":
+			huayun.Server.Settings.SSL = goi.MetaSSL{
+				STATUS:    *item.Value == "true", // SSL 开关
+				TYPE:      "",
+				CERT_PATH: "",
+				KEY_PATH:  "",
+			}
+		case "SSLType":
+			huayun.Server.Settings.SSL.TYPE = *item.Value
+		case "CertPath":
+			huayun.Server.Settings.SSL.CERT_PATH = *item.Value
+		case "KeyPath":
+			huayun.Server.Settings.SSL.KEY_PATH = *item.Value
+		case "TimeZone":
+			huayun.Server.Settings.TIME_ZONE = *item.Value
+		case "EvictPolicy":
+			EvictPolicy, _ := strconv.Atoi(*item.Value)
+			huayun.Server.Cache.EVICT_POLICY = goi.EvictPolicy(EvictPolicy)
+		case "ExpirationPolicy":
+			ExpirationPolicy, _ := strconv.Atoi(*item.Value)
+			huayun.Server.Cache.EXPIRATION_POLICY = goi.ExpirationPolicy(ExpirationPolicy)
+		case "MaxSize":
+			MaxSize, _ := strconv.Atoi(*item.Value)
+			huayun.Server.Cache.MAX_SIZE = int64(MaxSize)
+		case "Debug":
+			huayun.Server.Log.DEBUG = *item.Value == "true"
+		case "SecretKey":
+			huayun.Server.Settings.SECRET_KEY = *item.Value
+		case "PrivateKey":
+			huayun.Server.Settings.PRIVATE_KEY = *item.Value
+		case "PublicKey":
+			huayun.Server.Settings.PUBLIC_KEY = *item.Value
+		default:
+			huayun.Server.Settings.Set(*item.Name, *item.Value)
 		}
 	}
 	return nil
