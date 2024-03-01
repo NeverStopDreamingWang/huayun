@@ -2,7 +2,6 @@ package role
 
 import (
 	"github.com/NeverStopDreamingWang/goi/model"
-	"time"
 )
 
 import (
@@ -47,12 +46,12 @@ func (PermissionModel) ModelSet() *model.SQLite3Settings {
 
 // 角色表
 type RoleModel struct {
-	Id              *int64     `field_name:"id" field_type:"INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT" json:"id"`
-	Name            *string    `field_name:"name" field_type:"TEXT NOT NULL UNIQUE" json:"name"`
-	Status          *uint8     `field_name:"status" field_type:"INTEGER NOT NULL DEFAULT 1" json:"status"`
-	Remark          *string    `field_name:"remark" field_type:"TEXT" json:"remark"`
-	Create_Datetime *time.Time `field_name:"create_datetime" field_type:"DATETIME NOT NULL" json:"create_datetime"`
-	Update_Datetime *time.Time `field_name:"update_datetime" field_type:"DATETIME" json:"update_datetime"`
+	Id              *int64  `field_name:"id" field_type:"INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT" json:"id"`
+	Name            *string `field_name:"name" field_type:"TEXT NOT NULL UNIQUE" json:"name"`
+	Status          *uint8  `field_name:"status" field_type:"INTEGER NOT NULL DEFAULT 1" json:"status"`
+	Remark          *string `field_name:"remark" field_type:"TEXT" json:"remark"`
+	Create_Datetime *string `field_name:"create_datetime" field_type:"DATETIME NOT NULL" json:"create_datetime"`
+	Update_Datetime *string `field_name:"update_datetime" field_type:"DATETIME" json:"update_datetime"`
 }
 
 func (RoleModel) ModelSet() *model.SQLite3Settings {
@@ -72,9 +71,9 @@ func (RoleModel) ModelSet() *model.SQLite3Settings {
 
 // 角色-权限表
 type RolePermissionModel struct {
-	Role_Id         *int64     `field_name:"role_id" field_type:"INTEGER NOT NULL" json:"role_id"`
-	Permission_Id   *int64     `field_name:"permission_id" field_type:"TEXT NOT NULL" json:"permission_id"`
-	Create_Datetime *time.Time `field_name:"create_datetime" field_type:"DATETIME NOT NULL" json:"create_datetime"`
+	Role_Id         *int64  `field_name:"role_id" field_type:"INTEGER NOT NULL" json:"role_id"`
+	Permission_Id   *int64  `field_name:"permission_id" field_type:"TEXT NOT NULL" json:"permission_id"`
+	Create_Datetime *string `field_name:"create_datetime" field_type:"DATETIME NOT NULL" json:"create_datetime"`
 }
 
 func (RolePermissionModel) ModelSet() *model.SQLite3Settings {

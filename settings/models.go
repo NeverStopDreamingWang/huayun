@@ -27,9 +27,14 @@ type SettingsModel struct {
 	Type            *string    `field_name:"type" field_type:"TEXT NOT NULL" json:"type"`
 	Desc            *string    `field_name:"desc" field_type:"TEXT" json:"desc"`
 	Update_Datetime *time.Time `field_name:"update_datetime" field_type:"DATETIME" json:"update_datetime"`
+	Name            *string `field_name:"name" field_type:"TEXT NOT NULL UNIQUE" json:"name"`
+	Value           *string `field_name:"value" field_type:"TEXT NOT NULL" json:"value"`
+	Type            *string `field_name:"type" field_type:"TEXT NOT NULL" json:"type"`
+	Desc            *string `field_name:"desc" field_type:"TEXT" json:"desc"`
+	Update_Datetime *string `field_name:"update_datetime" field_type:"DATETIME" json:"update_datetime"`
 }
 
-func (SettingsModel) ModelSet() *model.SQLite3Settings {
+func (settingsModel SettingsModel) ModelSet() *model.SQLite3Settings {
 	modelSettings := &model.SQLite3Settings{
 		MigrationsHandler: model.MigrationsHandler{ // 迁移时处理函数
 			BeforeFunc: nil,          // 迁移之前处理函数

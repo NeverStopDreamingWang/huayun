@@ -3,7 +3,6 @@ package log
 import (
 	"github.com/NeverStopDreamingWang/goi/migrate"
 	"github.com/NeverStopDreamingWang/goi/model"
-	"time"
 )
 
 func init() {
@@ -19,14 +18,14 @@ func init() {
 
 // 日志表
 type LogModel struct {
-	Id              *int64     `field_name:"id" field_type:"INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT" json:"id"`
-	User_Id         *int64     `field_name:"user_id" field_type:"INTEGER NOT NULL" json:"user_id"`
-	Uri             *string    `field_name:"uri" field_type:"TEXT NOT NULL" json:"uri"`
-	Type            *string    `field_name:"type" field_type:"TEXT NOT NULL" json:"type"`
-	Status          *uint8     `field_name:"status" field_type:"INTEGER NOT NULL" json:"status"`
-	Response        *string    `field_name:"response" field_type:"TEXT NOT NULL" json:"response"`
-	Elapsed_Time    *int64     `field_name:"elapsed_time" field_type:"INTEGER NOT NULL" json:"elapsed_time"`
-	Create_Datetime *time.Time `field_name:"create_datetime" field_type:"DATETIME NOT NULL" json:"create_datetime"`
+	Id              *int64  `field_name:"id" field_type:"INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT" json:"id"`
+	User_Id         *int64  `field_name:"user_id" field_type:"INTEGER NOT NULL" json:"user_id"`
+	Uri             *string `field_name:"uri" field_type:"TEXT NOT NULL" json:"uri"`
+	Type            *string `field_name:"type" field_type:"TEXT NOT NULL" json:"type"`
+	Status          *uint8  `field_name:"status" field_type:"INTEGER NOT NULL" json:"status"`
+	Response        *string `field_name:"response" field_type:"TEXT NOT NULL" json:"response"`
+	Elapsed_Time    *int64  `field_name:"elapsed_time" field_type:"INTEGER NOT NULL" json:"elapsed_time"`
+	Create_Datetime *string `field_name:"create_datetime" field_type:"DATETIME NOT NULL" json:"create_datetime"`
 }
 
 func (LogModel) ModelSet() *model.SQLite3Settings {
