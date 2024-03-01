@@ -24,6 +24,7 @@ import (
 )
 
 func Start() {
+	huayun.SSLinit()
 	// 启动服务
 	huayun.Server.RunServer()
 }

@@ -12,8 +12,7 @@ import (
 	"time"
 )
 
-func init() {
-	SSLPath := path.Join(Server.Settings.BASE_DIR, "ssl")
+func SSLinit() {
 	if Server.Settings.SSL.STATUS == false {
 		return
 	}
@@ -21,6 +20,7 @@ func init() {
 	_, certErr := os.Stat(Server.Settings.SSL.CERT_PATH)
 	_, keyErr := os.Stat(Server.Settings.SSL.KEY_PATH)
 	if os.IsNotExist(certErr) || os.IsNotExist(keyErr) {
+		SSLPath := path.Join(Server.Settings.BASE_DIR, "ssl")
 		generateCertificate(SSLPath)
 	}
 }
