@@ -7,6 +7,16 @@ import (
 	"os"
 )
 
+// 根命令
+var HuaYunCmd = &cobra.Command{
+	Use:   "huayun",
+	Short: `华运面板，一款更适合中华的运维面板`,
+	RunE: func(cmd *cobra.Command, args []string) error {
+		huayun.Start()
+		return nil
+	},
+}
+
 var Help = `华运面板 version（版本）: %s
 使用"huayun help <command>"获取命令的更多信息。
 
@@ -32,16 +42,6 @@ The commands are（命令如下）:
   	disable		关闭 华运面板 服务 SSL
 
 `
-
-// 根命令
-var HuaYunCmd = &cobra.Command{
-	Use:   "huayun",
-	Short: `华运面板，一款更适合中华的运维面板`,
-	RunE: func(cmd *cobra.Command, args []string) error {
-		huayun.Start()
-		return nil
-	},
-}
 
 // 根命令
 var HelpCmd = &cobra.Command{
